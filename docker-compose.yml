@@ -1,0 +1,32 @@
+version: '3'
+services:
+  front:  
+    build: front_protocolo
+    labels:
+      - traefik.http.services.protocolo-front.loadbalancer.server.port=8080
+      - traefik.http.routers.protocolo-front.rule=PathPrefix(`/`)
+      - traefik.enable=true   
+      
+  back: 
+    build: protocolo
+    labels:
+      - traefik.http.services.protocolo-back.loadbalancer.server.port=8080
+      - traefik.http.routers.protocolo-back.rule=PathPrefix(`/api`)
+      - traefik.enable=true
+      - "traefik.http.middlewares.protocolo-back.stripprefix.prefixes=/api,"
+      - "traefik.http.routers.protocolo-back.middlewares=protocolo-back"
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=FSM_PROTOCOLO
+      - POSTGRES_DB=fsm_protocolo
+  traefik:
+    image: traefik:v2.5
+    command: --api.insecure=true --providers.docker --entryPoints.web.address=:80 --providers.docker.exposedByDefault=false --api.debug=true
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  

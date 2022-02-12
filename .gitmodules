@@ -1,0 +1,6 @@
+[submodule "front_protocolo"]
+	path = front_protocolo
+	url = git@github.com:bodescorp/front_protocolo.git
+[submodule "protocolo"]
+	path = protocolo
+	url = git@github.com:bodescorp/protocolo.git
