@@ -3,14 +3,14 @@ services:
   front:  
     build: front_protocolo
     labels:
-      - traefik.http.services.protocolo-front.loadbalancer.server.port=8080
+      - traefik.http.services.protocolo-front.loadbalancer.server.port=3000
       - traefik.http.routers.protocolo-front.rule=PathPrefix(`/`)
       - traefik.enable=true   
       
   back: 
     build: protocolo
     labels:
-      - traefik.http.services.protocolo-back.loadbalancer.server.port=8080
+      - traefik.http.services.protocolo-back.loadbalancer.server.port=3333
       - traefik.http.routers.protocolo-back.rule=PathPrefix(`/api`)
       - traefik.enable=true
       - "traefik.http.middlewares.protocolo-back.stripprefix.prefixes=/api,"
